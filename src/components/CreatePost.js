@@ -25,7 +25,7 @@ const CreatePost = ({ showCreatePost, setShowCreatePost }) => {
     setButtonPressed(true);
 
     if (nickname && header && content && category && postid) {
-      axios.post("/newpost", { nickname, header, content, category, postid });
+      axios.post("https://arcane-sea-64114.herokuapp.com/newpost", { nickname, header, content, category, postid });
       setButtonPressed(false);
     }
   };
