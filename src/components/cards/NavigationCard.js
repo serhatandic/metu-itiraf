@@ -2,10 +2,16 @@ import { Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { useState } from "react";
 import ContentCard from "./ContentCard";
+import CategoryCorner from "../CategoryCorner";
+import TimeAgo from "javascript-time-ago";
+import tr from "javascript-time-ago/locale/tr";
+import CommentIcon from "@mui/icons-material/Comment";
 
-const NavigationCard = () => {
+TimeAgo.addLocale(tr);
+const timeAgo = new TimeAgo("tr-TR");
+
+const NavigationCard = ({ nickname, header, content, category, date, postid }) => {
   const [showContent, setShowContent] = useState(false);
-
   const navigateToContent = (e) => {
     e.preventDefault();
     setShowContent((prevState) => !prevState);
@@ -13,55 +19,67 @@ const NavigationCard = () => {
   };
   return (
     <>
-      
-      {showContent && <ContentCard setShowContent={setShowContent} showContent={showContent}/>}
+      {showContent && (
+        <ContentCard
+          setShowContent={setShowContent}
+          showContent={showContent}
+          content={content}
+          postid={postid}
+        />
+      )}
       <Box
         sx={{
-          backgroundColor: "#",
-          borderStyle: "solid",
-          borderColor: "#FD8A8A",
+          backgroundColor: "white",
           display: "block",
-          height: "15%",
+          height: "100%",
           width: "100%",
-          borderRadius: "1rem",
           position: "relative",
+          fontSize: "14px",
         }}
         onClick={navigateToContent}
       >
+        <Box sx={{ display: "flex", gap: "10px" }}>
+          <CategoryCorner category={category} sx={{ position: "absolute", left: 0, top: 0 }} />
+          <Typography
+            sx={{ fontSize: "12px", fontWeight: "400", color: "#bebebe" }}
+          >
+            {date && timeAgo.format(new Date(Date.parse(date)))}
+          </Typography>
+        </Box>
+
         <Typography
           sx={{
-            fontSize: "50px",
-            position: "absolute",
-            left: "25px",
-            top: "5px",
+            marginLeft: "25px",
+            marginTop: "20px",
+            fontSize: "14px",
+            fontWeight: "700",
           }}
         >
-          Heading
+          {header.substring(0, 18)} {header.length >= 18 ? "..." : ""}
         </Typography>
         <Typography
           sx={{
-            fontSize: "50px",
-            position: "absolute",
-            left: "25px",
-            top: "50px",
-            height: "60%",
-            width: "90%",
+            marginLeft: "25px",
+            width: "80%",
+            wordWrap: "break-word",
+            fontSize: "14px",
           }}
         >
-          Summary
+          {content && content.substring(0, 100) + "..."}
         </Typography>
         <Box
           sx={{
             display: "flex",
             position: "absolute",
-            right: "50px",
             bottom: "10px",
-            gap: "20px",
+            width: "80%",
+            left: "25px",
+            justifyContent: "space-between",
           }}
         >
-          <Typography sx={{ fontSize: "20px" }}>Nick</Typography>
-          <Typography sx={{ fontSize: "20px" }}>Subject</Typography>
-          <Typography sx={{ fontSize: "20px" }}>Date</Typography>
+          <Typography sx={{}}>{nickname}</Typography>
+
+          <CommentIcon sx={{}} />
         </Box>
       </Box>
     </>

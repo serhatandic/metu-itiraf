@@ -11,10 +11,12 @@ const StoryCircle = () => {
         display: "inline-block",
         minWidth: "10rem",
         minHeight: "10rem",
+        width: "10rem",
+        height: "10rem",
       }}
     >
       <Avatar
-        alt="Remy Sharp"
+        alt="gollum"
         src={gollum}
         sx={{ borderRadius: "100%", width: "100%", height: "100%" }}
       />
