@@ -9,44 +9,15 @@ const StoryBar = () => {
         gap: "15px",
         overflowX: "scroll",
         overflowY:"hidden",
-        width:"100vw",
-        marginLeft:"10px"
+        width:"79.4vw",
+        marginTop:"20px",
+        marginBottom:"20px"
       }}
     >
       <StoryCircle />
       <StoryCircle />
-      <StoryCircle />
-      <StoryCircle />
-      <StoryCircle />
-      <StoryCircle />
-      <StoryCircle />
-      <StoryCircle />
-      <StoryCircle />
-      <StoryCircle />
-      <StoryCircle />
-      <StoryCircle />
-      <StoryCircle />
-      <StoryCircle />
-      <StoryCircle />
-      <StoryCircle />
-      <StoryCircle />
-      <StoryCircle />
-      <StoryCircle />
-      <StoryCircle />
-      <StoryCircle />
-      <StoryCircle />
-      <StoryCircle />
-      <StoryCircle />
-      <StoryCircle />
-      <StoryCircle />
-      <StoryCircle />
-      <StoryCircle />
-      <StoryCircle />
-      <StoryCircle />
-      <StoryCircle />
-      <StoryCircle />
-      <StoryCircle />
-      <StoryCircle />
+
+
     </Box>
   );
 };
