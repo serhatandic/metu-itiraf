@@ -15,7 +15,7 @@ const CommentSection = ({ comments, postid }) => {
     e.preventDefault();
     setButtonPressed(true);
     if (nickName && comment) {
-      axios.post("/newcomment", {
+      axios.post("https://arcane-sea-64114.herokuapp.com/newcomment", {
         comment,
         nickname: nickName,
         postid,

@@ -24,7 +24,7 @@ function App() {
 
   useEffect(() => {
     const fetch = async () => {
-      setData(await axios.get("http://localhost:4000/"));
+      setData(await axios.get("https://arcane-sea-64114.herokuapp.com/"));
     };
     fetch();
   }, []);
