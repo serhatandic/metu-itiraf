@@ -80,7 +80,6 @@ const CreatePost = ({ showCreatePost, setShowCreatePost }) => {
           position: "relative",
           width: "70%",
           height: "60%",
-          borderRadius: "10px",
           overflowY: "scroll",
           overflowX: "hidden",
           WebkitOverflowScrolling: "touch",
@@ -88,7 +87,6 @@ const CreatePost = ({ showCreatePost, setShowCreatePost }) => {
             width: "0.4em",
           },
           "::-webkit-scrollbar-thumb": {
-            borderRadius: "10px",
             backgroundColor: "#192b33",
           },
           overflow: "auto",
