@@ -16,10 +16,8 @@ const ContentCard = (props) => {
   }, [props]);
 
   const updateLocalCommentsHandler = (newComment) => {
-    console.log(newComment, comments)
 
     setComments((prevcomments) => [newComment, ...prevcomments]);
-    console.log( comments)
 
     props.setNumberOfComments([...comments, newComment].length);
   };
