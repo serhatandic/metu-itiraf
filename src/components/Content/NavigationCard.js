@@ -50,6 +50,7 @@ const NavigationCard = ({
           showContent={showContent}
           content={content}
           postid={postid}
+          header={header}
           setNumberOfComments={setNumberOfComments}
         />
       )}
