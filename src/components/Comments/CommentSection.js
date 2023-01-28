@@ -1,7 +1,7 @@
 import { Alert, Button, Snackbar, TextField } from "@mui/material";
 import { Box } from "@mui/system";
 import Comment from "./Comment";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import axios from "axios";
 import { nanoid } from "nanoid";
 import ReCAPTCHA from "react-google-recaptcha";
@@ -39,13 +39,22 @@ const CommentSection = ({ comments, postid, setComments }) => {
   const [notifyUser, setNotifyUser] = useState({ text: "", severity: "" });
   const [recaptchaChecked, setRecaptchaChecked] = useState(false);
 
-  const submitCommentHandler = (e) => {
+  const recaptchaRef = useRef(null);
+
+  const submitCommentHandler = async (e) => {
     e.preventDefault();
     setButtonPressed(true);
     if (nickName && comment) {
       if (recaptchaChecked) {
-        setNotifyUser({ text: "Yorumunuz eklendi!", severity: "success" });
         const commentid = nanoid();
+
+        await axios.post(Hosts.host + "/newcomment", {
+          comment,
+          nickname: nickName,
+          postid,
+          commentid,
+        });
+        setNotifyUser({ text: "Yorumunuz eklendi!", severity: "success" });
         setComments({
           comment,
           nickname: nickName,
@@ -54,13 +63,8 @@ const CommentSection = ({ comments, postid, setComments }) => {
           date: new Date(Date.now()).toISOString(),
         });
 
-        axios.post(Hosts.host + "/newcomment", {
-          comment,
-          nickname: nickName,
-          postid,
-          commentid,
-        });
         setButtonPressed(false);
+        recaptchaRef.current.reset();
       } else {
         setNotifyUser({
           text: "Captcha doğrulaması gerekli!",
@@ -77,7 +81,6 @@ const CommentSection = ({ comments, postid, setComments }) => {
           flexDirection: "column",
           gap: "20px",
           marginLeft: "4%",
-
         }}
       >
         <ResponsiveBoxInputSection
@@ -139,6 +142,7 @@ const CommentSection = ({ comments, postid, setComments }) => {
         </ResponsiveBoxInputSection>
         <Box sx={{ alignSelf: "end", marginRight: "4%" }}>
           <ReCAPTCHA
+            ref={recaptchaRef}
             size="compact"
             sitekey="6LcYvzMkAAAAAPscZQLd4hucGbgOWwBjKYsz1LWb"
             onChange={(e) => {

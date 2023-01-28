@@ -33,13 +33,13 @@ const CreatePost = ({ showCreatePost, setShowCreatePost }) => {
   const [notifyUser, setNotifyUser] = useState({ text: "", severity: "" });
   const [recaptchaChecked, setRecaptchaChecked] = useState(false);
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
     setButtonPressed(true);
 
     if (nickname && header && content && category) {
       if (recaptchaChecked) {
-        axios.post(Hosts.host + "/newpost", {
+        await axios.post(Hosts.host + "/newpost", {
           nickname,
           header,
           content,
