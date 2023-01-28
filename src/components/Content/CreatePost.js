@@ -167,7 +167,7 @@ const CreatePost = ({ showCreatePost, setShowCreatePost }) => {
           />
           <ReCAPTCHA
             size="compact"
-            sitekey="6LdKvjMkAAAAANhGBXZRSnS7FfATPzmcrAagO-Ca"
+            sitekey="6LcYvzMkAAAAAPscZQLd4hucGbgOWwBjKYsz1LWb"
             onChange={(e) => {
               setRecaptchaChecked(true);
             }}
