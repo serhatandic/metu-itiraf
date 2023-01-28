@@ -140,7 +140,7 @@ const CommentSection = ({ comments, postid, setComments }) => {
         <Box sx={{ alignSelf: "end", marginRight: "4%" }}>
           <ReCAPTCHA
             size="compact"
-            sitekey="6LdKvjMkAAAAANhGBXZRSnS7FfATPzmcrAagO-Ca"
+            sitekey="6LcYvzMkAAAAAPscZQLd4hucGbgOWwBjKYsz1LWb"
             onChange={(e) => {
               setRecaptchaChecked(true);
             }}
