@@ -55,10 +55,20 @@ const ContentCard = (props) => {
       >
         <Typography
           sx={{
-            fontSize: "14px",
+            fontSize: "24px",
             color: "#192b33",
             padding: "4%",
             paddingTop: "2rem",
+            wordBreak: "break-word",
+            fontWeight:"700"
+          }}
+        >{props.header}</Typography>
+        <Typography
+          sx={{
+            fontSize: "14px",
+            color: "#192b33",
+            paddingLeft: "4%",
+            paddingBottom: "1%",
             wordBreak: "break-word",
           }}
         >

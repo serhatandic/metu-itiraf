@@ -93,7 +93,7 @@ const CommentSection = ({ comments, postid, setComments }) => {
               multiline
               rows={4}
               value={comment}
-              inputProps={{ maxLength: 250 }}
+              inputProps={{ maxLength: 450 }}
               onChange={(e) => {
                 setComment(e.target.value);
               }}

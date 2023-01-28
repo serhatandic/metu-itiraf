@@ -115,6 +115,7 @@ const CreatePost = ({ showCreatePost, setShowCreatePost }) => {
             onChange={(e) => {
               setHeader(e.target.value);
             }}
+            inputProps={{ maxLength: 30 }}
             error={buttonPressed && !header}
           />
           <TextField
@@ -125,6 +126,7 @@ const CreatePost = ({ showCreatePost, setShowCreatePost }) => {
             onChange={(e) => {
               setNickname(e.target.value);
             }}
+            inputProps={{ maxLength: 20 }}
             error={buttonPressed && !nickname}
           />
           <FormControl required={true}>
@@ -140,6 +142,7 @@ const CreatePost = ({ showCreatePost, setShowCreatePost }) => {
               error={buttonPressed && !category}
             >
               <MenuItem value={"Hayal"}>Hayal</MenuItem>
+              <MenuItem value={"Aşk"}>Aşk</MenuItem>
               <MenuItem value={"Deneyim"}>Deneyim</MenuItem>
               <MenuItem value={"Suçluluk"}>Suçluluk</MenuItem>
               <MenuItem value={"Acı"}>Acı</MenuItem>
