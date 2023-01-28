@@ -52,6 +52,8 @@ const NavigationCard = ({
           postid={postid}
           header={header}
           setNumberOfComments={setNumberOfComments}
+          date={date}
+          nickname={nickname}
         />
       )}
       <Box
