@@ -15,13 +15,6 @@ const ResponsiveBox = styled("div")(({ theme }) => ({
   },
 }));
 
-const ResponsivePagination = styled("div")(({ theme }) => ({
-  [theme.breakpoints.down("xl")]: {
-    marginBottom: "0",
-    marginTop: "20px",
-  },
-}));
-
 function App() {
   const allCategories = [
     "Her şey",
@@ -81,7 +74,7 @@ function App() {
 
   useEffect(() => {
     setCurrentPage(1);
-  }, [categoryFilter])
+  }, [categoryFilter]);
   const filteredPosts = info?.filter(
     (item) =>
       item.category.toUpperCase() === categoryFilter ||
@@ -93,43 +86,46 @@ function App() {
     <>
       <Navbar />
 
-      <Box sx={{ display: "flex", flexDirection: "column", }}>
+      <Box sx={{ display: "flex", flexDirection: "column" }}>
         <Box sx={{ display: "flex" }}>
-          <ResponsiveBox
-            sx={{
-              display: "flex",
-              position: "block",
-              width: "200px",
-              height: "100vh",
-              backgroundColor: "white",
-              flexDirection: "column",
-              alignItems: "flex-start",
-              paddingTop: "55px",
-              gap: "20px",
-              textTransform: "lowercase",
-              paddingLeft: "10px",
-            }}
-          >
-            {allCategories.map((item, id) => (
-              <Button
-                sx={{
-                  fontFamily: "Rubik Mono One , sans-serif",
-                  color: "#414141",
-                  display: "flex",
-                  justifyContent: "start",
-                }}
-                key={id}
-                onClick={(e) => {
-                  setCategoryFilter(e.target.innerText);
-                }}
-              >
-                {item}
-              </Button>
-            ))}
-          </ResponsiveBox>
+          <Box>
+            <ResponsiveBox
+              sx={{
+                display: "flex",
+                position: "static",
+                width: "200px",
+                height: "100vh",
+                backgroundColor: "white",
+                flexDirection: "column",
+                alignItems: "flex-start",
+                paddingTop: "55px",
+                gap: "10px",
+                textTransform: "lowercase",
+                paddingLeft: "10px",
+              }}
+            >
+              {allCategories.map((item, id) => (
+                <Button
+                  sx={{
+                    fontFamily: "Rubik Mono One , sans-serif",
+                    color: "#414141",
+                    display: "flex",
+                    justifyContent: "start",
+                  }}
+                  key={id}
+                  onClick={(e) => {
+                    setCategoryFilter(e.target.innerText);
+                  }}
+                >
+                  {item}
+                </Button>
+              ))}
+            </ResponsiveBox>
+          </Box>
+
           <Grid
             container
-            spacing={5}
+            spacing={2}
             sx={{
               marginTop: "10px",
               width: "95vw",
@@ -144,8 +140,8 @@ function App() {
                 xs={12}
                 sm={4}
                 md={3}
-                l={2}
-                xl={2}
+                l={3}
+                xl={3}
                 sx={{
                   height: "250px",
                   width: "400px",
@@ -165,7 +161,7 @@ function App() {
             ))}
           </Grid>
         </Box>
-        <ResponsivePagination sx={{ alignSelf: "center", marginTop: "-45px" }}>
+        <Box sx={{ alignSelf: "center", marginTop: "20px" }}>
           <Pagination
             count={numberOfPages || 0}
             shape="rounded"
@@ -173,7 +169,7 @@ function App() {
               setCurrentPage(parseInt(e.target.textContent));
             }}
           />
-        </ResponsivePagination>
+        </Box>
       </Box>
     </>
   );
