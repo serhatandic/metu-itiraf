@@ -16,7 +16,11 @@ const ContentCard = (props) => {
   }, [props]);
 
   const updateLocalCommentsHandler = (newComment) => {
-    setComments([newComment, ...comments]);
+    console.log(newComment, comments)
+
+    setComments((prevcomments) => [newComment, ...prevcomments]);
+    console.log( comments)
+
     props.setNumberOfComments([...comments, newComment].length);
   };
   return (
@@ -78,7 +82,6 @@ const ContentCard = (props) => {
         <CommentSection
           comments={comments}
           setComments={updateLocalCommentsHandler}
-          sx={{}}
           postid={props.postid}
         />
       </Box>
