@@ -15,6 +15,7 @@ import { useState } from "react";
 import { nanoid } from "nanoid";
 import { styled } from "@mui/material/styles";
 import ReCAPTCHA from "react-google-recaptcha";
+import Recaptcha from "../../Tools/Recaptcha";
 
 const Hosts = require("../../Tools/Hosts");
 
@@ -168,7 +169,7 @@ const CreatePost = ({ showCreatePost, setShowCreatePost }) => {
           />
           <ReCAPTCHA
             size="compact"
-            sitekey="6LcYvzMkAAAAAPscZQLd4hucGbgOWwBjKYsz1LWb"
+            sitekey={Recaptcha.token}
             onChange={(e) => {
               setRecaptchaChecked(true);
             }}
