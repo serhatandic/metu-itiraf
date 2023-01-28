@@ -5,6 +5,7 @@ import { useRef, useState } from "react";
 import axios from "axios";
 import { nanoid } from "nanoid";
 import ReCAPTCHA from "react-google-recaptcha";
+import Recaptcha from "../../Tools/Recaptcha";
 import { styled } from "@mui/material/styles";
 
 const Hosts = require("../../Tools/Hosts");
@@ -144,7 +145,7 @@ const CommentSection = ({ comments, postid, setComments }) => {
           <ReCAPTCHA
             ref={recaptchaRef}
             size="compact"
-            sitekey="6LcYvzMkAAAAAPscZQLd4hucGbgOWwBjKYsz1LWb"
+            sitekey={Recaptcha.token}
             onChange={(e) => {
               setRecaptchaChecked(true);
             }}
