@@ -79,6 +79,9 @@ function App() {
     }
   }, [data, info?.length, postsPerPage]);
 
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [categoryFilter])
   const filteredPosts = info?.filter(
     (item) =>
       item.category.toUpperCase() === categoryFilter ||
