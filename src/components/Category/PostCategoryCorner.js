@@ -1,18 +1,20 @@
 import { Box } from "@mui/system";
 
-const CategoryCorner = ({category}) => {
+const PostCategoryCorner = ({category, backgroundColor}) => {
   return (
     <Box
       sx={{
         width: "40px",
         height: "18px",
         color: "white",
-        backgroundColor: "black",
-        fontSize: "10px",
-        fontWeight: "700",
+        backgroundColor: {backgroundColor},
+        fontSize: "8px",
+        fontWeight: "500",
         display:"flex",
         justifyContent:"center",
         alignItems:"center",
+        fontFamily:"Montserrat, sans-serif",
+        borderBottomRightRadius:"3px"
       }}
     >
       {category}
@@ -20,4 +22,4 @@ const CategoryCorner = ({category}) => {
   );
 };
 
-export default CategoryCorner;
+export default PostCategoryCorner;

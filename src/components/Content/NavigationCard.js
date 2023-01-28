@@ -1,22 +1,47 @@
-import { Typography } from "@mui/material";
+import { Badge, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { useState } from "react";
 import ContentCard from "./ContentCard";
-import CategoryCorner from "../CategoryCorner";
+import CategoryCorner from "../Category/PostCategoryCorner";
 import TimeAgo from "javascript-time-ago";
 import tr from "javascript-time-ago/locale/tr";
 import CommentIcon from "@mui/icons-material/Comment";
+import { useEffect } from "react";
+import axios from "axios";
+
+const Hosts = require("../../Tools/Hosts")
 
 TimeAgo.addLocale(tr);
 const timeAgo = new TimeAgo("tr-TR");
 
-const NavigationCard = ({ nickname, header, content, category, date, postid }) => {
+const NavigationCard = ({
+  nickname,
+  header,
+  content,
+  category,
+  date,
+  postid,
+  categoryColor
+}) => {
   const [showContent, setShowContent] = useState(false);
+  const [commentNum, setCommentNum] = useState(0);
+
+  useEffect(() => {
+    const fetchComments = async () => {
+      setCommentNum((await axios.get(Hosts.host+"/comments/" + postid)).data.length);
+    };
+
+    fetchComments()
+  }, [postid]);
+
   const navigateToContent = (e) => {
     e.preventDefault();
     setShowContent((prevState) => !prevState);
-    console.log("hmmm");
   };
+
+  const setNumberOfComments = (num) => {
+    setCommentNum(num);
+  }
   return (
     <>
       {showContent && (
@@ -25,6 +50,7 @@ const NavigationCard = ({ nickname, header, content, category, date, postid }) =
           showContent={showContent}
           content={content}
           postid={postid}
+          setNumberOfComments={setNumberOfComments}
         />
       )}
       <Box
@@ -39,7 +65,11 @@ const NavigationCard = ({ nickname, header, content, category, date, postid }) =
         onClick={navigateToContent}
       >
         <Box sx={{ display: "flex", gap: "10px" }}>
-          <CategoryCorner category={category} sx={{ position: "absolute", left: 0, top: 0 }} />
+          <CategoryCorner
+            category={category}
+            backgroundColor = {categoryColor}
+            sx={{ position: "absolute", left: 0, top: 0,}}
+          />
           <Typography
             sx={{ fontSize: "12px", fontWeight: "400", color: "#bebebe" }}
           >
@@ -65,7 +95,7 @@ const NavigationCard = ({ nickname, header, content, category, date, postid }) =
             fontSize: "14px",
           }}
         >
-          {content && content.substring(0, 100) + "..."}
+          {content && content.substring(0, 100)}  {content.length >= 100 ? "..." : ""}
         </Typography>
         <Box
           sx={{
@@ -78,8 +108,9 @@ const NavigationCard = ({ nickname, header, content, category, date, postid }) =
           }}
         >
           <Typography sx={{}}>{nickname}</Typography>
-
-          <CommentIcon sx={{}} />
+          <Badge badgeContent={commentNum} color="secondary" showZero>
+            <CommentIcon />
+          </Badge>
         </Box>
       </Box>
     </>

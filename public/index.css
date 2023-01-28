@@ -1,3 +1,19 @@
 body{
     background-color: #fafafa;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+::-webkit-scrollbar {
+    width: 0.5em;
+    background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #000000;
+  border-radius: 1px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #555555; 
 }

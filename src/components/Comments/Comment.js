@@ -10,15 +10,18 @@ const Comment = ({ comment, nickname,date }) => {
       sx={{
         width: "92%",
         border: "solid",
+        borderWidth: "1px",
         borderColor: "#192b33",
+        backgroundColor:"#fafafa",
         marginTop: "2%",
         marginLeft: "4%",
         color: "#192b33",
         position: "relative",
+        borderRadius:"5px"
       }}
     >
       <Box sx={{ position: "absolute", right: "5px", top: "2px" }}>{date && timeAgo.format(new Date(Date.parse(date)))}</Box>
-      <Box sx={{ paddingBottom: "50px" }}> {comment}</Box>
+      <Box sx={{ paddingBottom: "50px", width:"50%", paddingLeft:"5px", paddingTop:"1px" }}> {comment}</Box>
       <Box sx={{ position: "absolute", right: "5px", bottom: "2px" }}>
         Yazar: {nickname}
       </Box>

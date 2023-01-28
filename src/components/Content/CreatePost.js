@@ -1,16 +1,28 @@
 import {
+  Alert,
   Button,
   FormControl,
   InputLabel,
   MenuItem,
   Modal,
   Select,
+  Snackbar,
   TextField,
 } from "@mui/material";
 import { Box } from "@mui/system";
 import axios from "axios";
 import { useState } from "react";
-import { nanoid } from 'nanoid'
+import { nanoid } from "nanoid";
+import { styled } from "@mui/material/styles";
+import ReCAPTCHA from "react-google-recaptcha";
+
+const Hosts = require("../../Tools/Hosts");
+
+const ResponsiveBox = styled("div")(({ theme }) => ({
+  [theme.breakpoints.up("md")]: {
+    width: "60%",
+  },
+}));
 
 const CreatePost = ({ showCreatePost, setShowCreatePost }) => {
   const [nickname, setNickname] = useState("");
@@ -18,15 +30,38 @@ const CreatePost = ({ showCreatePost, setShowCreatePost }) => {
   const [content, setContent] = useState("");
   const [category, setCategory] = useState("");
   const [buttonPressed, setButtonPressed] = useState(false);
-  const postid = nanoid();
+  const [notifyUser, setNotifyUser] = useState({ text: "", severity: "" });
+  const [recaptchaChecked, setRecaptchaChecked] = useState(false);
 
   const submitHandler = (e) => {
     e.preventDefault();
     setButtonPressed(true);
 
-    if (nickname && header && content && category && postid) {
-      axios.post("https://arcane-sea-64114.herokuapp.com/newpost", { nickname, header, content, category, postid });
-      setButtonPressed(false);
+    if (nickname && header && content && category) {
+      if (recaptchaChecked) {
+        axios.post(Hosts.host + "/newpost", {
+          nickname,
+          header,
+          content,
+          category,
+          postid: nanoid(),
+        });
+        setButtonPressed(false);
+        setNotifyUser({
+          text: "İtirafınız paylaşıldı ! Yönlendiriliyorsunuz",
+          severity: "success",
+        });
+        setRecaptchaChecked(false);
+
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+      } else {
+        setNotifyUser({
+          text: "Captcha doğrulaması gerekli!",
+          severity: "warning",
+        });
+      }
     }
   };
   return (
@@ -45,37 +80,47 @@ const CreatePost = ({ showCreatePost, setShowCreatePost }) => {
           position: "relative",
           width: "70%",
           height: "60%",
-          borderRadius: "1rem",
+          borderRadius: "10px",
           overflowY: "scroll",
           overflowX: "hidden",
+          WebkitOverflowScrolling: "touch",
+          "::-webkit-scrollbar": {
+            width: "0.4em",
+          },
+          "::-webkit-scrollbar-thumb": {
+            borderRadius: "10px",
+            backgroundColor: "#192b33",
+          },
+          overflow: "auto",
         }}
       >
-        <Box
+        <ResponsiveBox
           sx={{
             display: "flex",
             flexDirection: "column",
             gap: "40px",
-            left: "20px",
             top: "25px",
             position: "absolute",
-            width: "100%",
+            width: "80%",
             paddingBottom: "50px",
+            paddingLeft: "20px",
+            paddingRight: "20px",
           }}
         >
           <TextField
-            sx={{ width: "50%" }}
             variant="outlined"
             label="Başlık"
             required={true}
+            value={header}
             onChange={(e) => {
               setHeader(e.target.value);
             }}
             error={buttonPressed && !header}
           />
           <TextField
-            sx={{ width: "50%" }}
             variant="outlined"
             label="Rumuz"
+            value={nickname}
             required={true}
             onChange={(e) => {
               setNickname(e.target.value);
@@ -86,48 +131,79 @@ const CreatePost = ({ showCreatePost, setShowCreatePost }) => {
             <InputLabel id="demo-simple-select-label">Kategori</InputLabel>
 
             <Select
-              sx={{ width: "50%" }}
               variant="outlined"
               label="Kategori"
+              value={category}
               onChange={(e) => {
                 setCategory(e.target.value);
               }}
               error={buttonPressed && !category}
             >
-              <MenuItem value={"Aşk"}>Aşk</MenuItem>
+              <MenuItem value={"Hayal"}>Hayal</MenuItem>
+              <MenuItem value={"Deneyim"}>Deneyim</MenuItem>
+              <MenuItem value={"Suçluluk"}>Suçluluk</MenuItem>
+              <MenuItem value={"Acı"}>Acı</MenuItem>
+              <MenuItem value={"Yalan"}>Yalan</MenuItem>
+              <MenuItem value={"Rastlantı"}>Rastlantı</MenuItem>
               <MenuItem value={"Geyik"}>Geyik</MenuItem>
               <MenuItem value={"Aile"}>Aile</MenuItem>
               <MenuItem value={"Okul"}>Okul</MenuItem>
+              <MenuItem value={"Gerçekler"}>Gerçekler</MenuItem>
               <MenuItem value={"Diğer"}>Diğer</MenuItem>
             </Select>
           </FormControl>
 
           <TextField
-            sx={{ width: "50%" }}
             variant="outlined"
             label="İçerik"
             multiline
             rows={5}
+            value={content}
             required={true}
             onChange={(e) => {
               setContent(e.target.value);
             }}
             error={buttonPressed && !content}
           />
+          <ReCAPTCHA
+            size="compact"
+            sitekey="6LdKvjMkAAAAANhGBXZRSnS7FfATPzmcrAagO-Ca"
+            onChange={(e) => {
+              setRecaptchaChecked(true);
+            }}
+          />
           <Button
             variant="contained"
             sx={{
               backgroundColor: "#192b33",
-              width: "50%",
               color: "white ",
               ":hover": { backgroundColor: "#192b33" },
-              fontSize: "35px",
+              fontSize: "25px",
             }}
             onClick={submitHandler}
           >
             Gönder
           </Button>
-        </Box>
+        </ResponsiveBox>
+        {notifyUser.text && (
+          <Snackbar
+            open={notifyUser !== ""}
+            autoHideDuration={6000}
+            onClose={() => {
+              setNotifyUser({ text: "", severity: "" });
+            }}
+          >
+            <Alert
+              onClose={() => {
+                setNotifyUser({ text: "", severity: "" });
+              }}
+              severity={notifyUser?.severity}
+              sx={{ width: "100%" }}
+            >
+              {notifyUser.text}
+            </Alert>
+          </Snackbar>
+        )}
       </Box>
     </Modal>
   );
