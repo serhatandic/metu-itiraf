@@ -5,7 +5,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import metuIcon from "../images/metuicon.png";
 import { Avatar, Button } from "@mui/material";
-import CreatePost from "./CreatePost";
+import CreatePost from "./Content/CreatePost";
 import { useState } from "react";
 import { styled } from "@mui/material/styles";
 
