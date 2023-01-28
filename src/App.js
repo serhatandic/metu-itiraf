@@ -6,11 +6,18 @@ import Navbar from "./components/Navbar";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Button, Grid, Pagination } from "@mui/material";
+import MobileCategorySelection from "./components/Category/MobileCategorySelection";
 
 const Hosts = require("./Tools/Hosts");
 
 const ResponsiveBox = styled("div")(({ theme }) => ({
   [theme.breakpoints.down("md")]: {
+    display: "none",
+  },
+}));
+
+const MobileCategory = styled("div")(({ theme }) => ({
+  [theme.breakpoints.up("md")]: {
     display: "none",
   },
 }));
@@ -75,6 +82,10 @@ function App() {
   useEffect(() => {
     setCurrentPage(1);
   }, [categoryFilter]);
+
+  const mobileCategoryChangeHandler = (e) => {
+    setCategoryFilter(e.target.value.toUpperCase())
+  };
   const filteredPosts = info?.filter(
     (item) =>
       item.category.toUpperCase() === categoryFilter ||
@@ -85,7 +96,12 @@ function App() {
   return (
     <>
       <Navbar />
-
+      <MobileCategory sx={{ marginLeft: "4%", width: "92%", paddingTop: "2%" }}>
+        <MobileCategorySelection
+          allCategories={allCategories}
+          mobileCategoryChangeHandler={mobileCategoryChangeHandler}
+        />
+      </MobileCategory>
       <Box sx={{ display: "flex", flexDirection: "column" }}>
         <Box sx={{ display: "flex" }}>
           <Box>
@@ -122,44 +138,42 @@ function App() {
               ))}
             </ResponsiveBox>
           </Box>
-
-          <Grid
-            container
-            spacing={2}
-            sx={{
-              marginTop: "10px",
-              width: "95vw",
-              marginLeft: "1px",
-              marginRight: "15px",
-            }}
-          >
-            {currentPosts?.map((item, id) => (
-              <Grid
-                key={id}
-                item
-                xs={12}
-                sm={4}
-                md={3}
-                l={3}
-                xl={3}
-                sx={{
-                  height: "250px",
-                  width: "400px",
-                }}
-              >
-                <NavigationCard
-                  key={item.content}
-                  nickname={item.nickname}
-                  header={item.header}
-                  content={item.content}
-                  category={item.category}
-                  date={item.date}
-                  postid={item.postid}
-                  categoryColor={categoryColors[item.category]}
-                />
-              </Grid>
-            ))}
-          </Grid>
+          <Box sx={{ marginLeft: "4%", width: "92%" }}>
+            <Grid
+              container
+              spacing={2}
+              sx={{
+                marginTop: "10px",
+              }}
+            >
+              {currentPosts?.map((item, id) => (
+                <Grid
+                  key={id}
+                  item
+                  xs={12}
+                  sm={4}
+                  md={3}
+                  l={3}
+                  xl={3}
+                  sx={{
+                    height: "250px",
+                    width: "400px",
+                  }}
+                >
+                  <NavigationCard
+                    key={item.content}
+                    nickname={item.nickname}
+                    header={item.header}
+                    content={item.content}
+                    category={item.category}
+                    date={item.date}
+                    postid={item.postid}
+                    categoryColor={categoryColors[item.category]}
+                  />
+                </Grid>
+              ))}
+            </Grid>
+          </Box>
         </Box>
         <Box sx={{ alignSelf: "center", marginTop: "20px" }}>
           <Pagination
