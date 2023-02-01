@@ -33,6 +33,13 @@ const CreatePost = ({ showCreatePost, setShowCreatePost }) => {
   const [buttonPressed, setButtonPressed] = useState(false);
   const [notifyUser, setNotifyUser] = useState({ text: "", severity: "" });
   const [recaptchaChecked, setRecaptchaChecked] = useState(false);
+  const [instagramProfileUrl, setInstagramProfileUrl] = useState("");
+
+  const instagramUrlRegex = new RegExp(
+    "^(https://www.instagram.com/[a-zA-Z0-9._-]+)/?$"
+  );
+
+  const isGivenProfileUrlValid = instagramUrlRegex.test(instagramProfileUrl);
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -40,13 +47,33 @@ const CreatePost = ({ showCreatePost, setShowCreatePost }) => {
 
     if (nickname && header && content && category) {
       if (recaptchaChecked) {
-        await axios.post(Hosts.host + "/newpost", {
-          nickname,
-          header,
-          content,
-          category,
-          postid: nanoid(),
-        });
+        if (instagramProfileUrl && isGivenProfileUrlValid) {
+          await axios.post(Hosts.host + "/newpost", {
+            nickname,
+            header,
+            content,
+            category,
+            postid: nanoid(),
+            instagramProfileUrl,
+          });
+        } else {
+          if (instagramProfileUrl && !isGivenProfileUrlValid) {
+            setNotifyUser({
+              text: "Instagram url geçerli değil!",
+              severity: "warning",
+            });
+            return;
+          } else if (!instagramProfileUrl) {
+            await axios.post(Hosts.host + "/newpost", {
+              nickname,
+              header,
+              content,
+              category,
+              postid: nanoid(),
+            });
+          }
+        }
+
         setButtonPressed(false);
         setNotifyUser({
           text: "İtirafınız paylaşıldı ! Yönlendiriliyorsunuz",
@@ -128,6 +155,14 @@ const CreatePost = ({ showCreatePost, setShowCreatePost }) => {
             inputProps={{ maxLength: 20 }}
             error={buttonPressed && !nickname}
           />
+
+          <TextField
+            variant="outlined"
+            label="Instagram profil id (isteğe bağlı)"
+            onChange={(e) => {
+              setInstagramProfileUrl(`https://www.instagram.com/${e.target.value}`);
+            }}
+          />
           <FormControl required={true}>
             <InputLabel id="demo-simple-select-label">Kategori</InputLabel>
 
@@ -186,6 +221,7 @@ const CreatePost = ({ showCreatePost, setShowCreatePost }) => {
           >
             Gönder
           </Button>
+
         </ResponsiveBox>
         {notifyUser.text && (
           <Snackbar

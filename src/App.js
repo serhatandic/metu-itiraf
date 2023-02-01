@@ -196,6 +196,7 @@ function App() {
                       date={item.date}
                       postid={item.postid}
                       categoryColor={categoryColors[item.category]}
+                      instagramProfileUrl={item.instagramProfileUrl}
                     />
                   </Grid>
                 ))}
