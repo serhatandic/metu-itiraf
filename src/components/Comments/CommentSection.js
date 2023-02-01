@@ -66,7 +66,7 @@ const CommentSection = ({ comments, postid, setComments }) => {
 
         setButtonPressed(false);
         recaptchaRef.current.reset();
-        recaptchaChecked(false);
+        setRecaptchaChecked(false);
       } else {
         setNotifyUser({
           text: "Captcha doğrulaması gerekli!",
