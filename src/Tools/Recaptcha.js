@@ -1,5 +1,5 @@
 const tokens = require("./Tokens");
 
 module.exports = {
-    token:tokens.netlify
+    token:tokens.online
 }

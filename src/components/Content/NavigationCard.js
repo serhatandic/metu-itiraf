@@ -9,7 +9,7 @@ import CommentIcon from "@mui/icons-material/Comment";
 import { useEffect } from "react";
 import axios from "axios";
 
-const Hosts = require("../../Tools/Hosts")
+const Hosts = require("../../Tools/Hosts");
 
 TimeAgo.addLocale(tr);
 const timeAgo = new TimeAgo("tr-TR");
@@ -21,17 +21,19 @@ const NavigationCard = ({
   category,
   date,
   postid,
-  categoryColor
+  categoryColor,
 }) => {
   const [showContent, setShowContent] = useState(false);
   const [commentNum, setCommentNum] = useState(0);
 
   useEffect(() => {
     const fetchComments = async () => {
-      setCommentNum((await axios.get(Hosts.host+"/comments/" + postid)).data.length);
+      setCommentNum(
+        (await axios.get(Hosts.host + "/comments/" + postid)).data.length
+      );
     };
 
-    fetchComments()
+    fetchComments();
   }, [postid]);
 
   const navigateToContent = (e) => {
@@ -41,7 +43,7 @@ const NavigationCard = ({
 
   const setNumberOfComments = (num) => {
     setCommentNum(num);
-  }
+  };
   return (
     <>
       {showContent && (
@@ -70,8 +72,8 @@ const NavigationCard = ({
         <Box sx={{ display: "flex", gap: "10px" }}>
           <CategoryCorner
             category={category}
-            backgroundColor = {categoryColor}
-            sx={{ position: "absolute", left: 0, top: 0,}}
+            backgroundColor={categoryColor}
+            sx={{ position: "absolute", left: 0, top: 0 }}
           />
           <Typography
             sx={{ fontSize: "12px", fontWeight: "400", color: "#bebebe" }}
@@ -98,7 +100,8 @@ const NavigationCard = ({
             fontSize: "14px",
           }}
         >
-          {content && content.substring(0, 100)}  {content.length >= 100 ? "..." : ""}
+          {content && content.substring(0, 100)}{" "}
+          {content.length >= 100 ? "..." : ""}
         </Typography>
         <Box
           sx={{
@@ -110,7 +113,16 @@ const NavigationCard = ({
             justifyContent: "space-between",
           }}
         >
-          <Typography sx={{}}>{nickname}</Typography>
+          <Typography
+            sx={{
+              color: "#192b33",
+              fontWeight: "600",
+              fontFamily: "Montserrat",
+              fontSize: "14px",
+            }}
+          >
+            {nickname}
+          </Typography>
           <Badge badgeContent={commentNum} color="secondary" showZero>
             <CommentIcon />
           </Badge>
