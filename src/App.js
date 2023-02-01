@@ -7,7 +7,6 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Button, Grid, Pagination } from "@mui/material";
 import MobileCategorySelection from "./components/Category/MobileCategorySelection";
-
 const Hosts = require("./Tools/Hosts");
 
 const ResponsiveBox = styled("div")(({ theme }) => ({
@@ -84,7 +83,7 @@ function App() {
   }, [categoryFilter]);
 
   const mobileCategoryChangeHandler = (e) => {
-    setCategoryFilter(e.target.value.toUpperCase())
+    setCategoryFilter(e.target.value.toUpperCase());
   };
   const filteredPosts = info?.filter(
     (item) =>
@@ -138,7 +137,14 @@ function App() {
               ))}
             </ResponsiveBox>
           </Box>
-          <Box sx={{ marginLeft: "4%", width: "92%" }}>
+          <Box
+            sx={{
+              marginLeft: "4%",
+              width: "92%",
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
             <Grid
               container
               spacing={2}
@@ -173,16 +179,16 @@ function App() {
                 </Grid>
               ))}
             </Grid>
+            <Box sx={{ alignSelf: "center", marginTop: "20px", marginBottom:"20px" }}>
+              <Pagination
+                count={numberOfPages || 0}
+                shape="rounded"
+                onChange={(e, p) => {
+                  setCurrentPage(p);
+                }}
+              />
+            </Box>
           </Box>
-        </Box>
-        <Box sx={{ alignSelf: "center", marginTop: "20px" }}>
-          <Pagination
-            count={numberOfPages || 0}
-            shape="rounded"
-            onChange={(e) => {
-              setCurrentPage(parseInt(e.target.textContent));
-            }}
-          />
         </Box>
       </Box>
     </>
