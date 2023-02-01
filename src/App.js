@@ -178,7 +178,7 @@ function App() {
                     item
                     xs={12}
                     sm={4}
-                    md={3}
+                    md={4}
                     l={3}
                     xl={3}
                     sx={{
