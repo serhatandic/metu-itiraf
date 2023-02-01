@@ -13,6 +13,9 @@ function Navbar() {
   const [showCreatePost, setShowCreatePost] = useState(false);
 
   const ResponsiveNavbarButton = styled("div")(({ theme }) => ({
+    [theme.breakpoints.down("lg")]: {
+      fontSize: "22px",
+    },
     [theme.breakpoints.down("md")]: {
       fontSize: "15px",
     },
@@ -61,7 +64,7 @@ function Navbar() {
                 letterSpacing: ".3rem",
                 color: "inherit",
                 textDecoration: "none",
-                fontSize: "75px",
+                fontSize: "65px",
               }}
             >
               Metu Itiraf
@@ -88,7 +91,7 @@ function Navbar() {
                 height: "70%",
                 color: "#192b33",
                 ":hover": { backgroundColor: "lightgray" },
-                fontSize: "35px",
+                fontSize: "30px",
                 marginRight: "20px",
               }}
               onClick={() => {

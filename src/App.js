@@ -15,6 +15,13 @@ const ResponsiveBox = styled("div")(({ theme }) => ({
   },
 }));
 
+const ResponsiveGridContainer = styled("div")(({ theme }) => ({
+  [theme.breakpoints.down("md")]: {
+    width:"92%",
+    margin:"auto"
+  },
+}));
+
 const MobileCategory = styled("div")(({ theme }) => ({
   [theme.breakpoints.up("md")]: {
     display: "none",
@@ -149,9 +156,10 @@ function App() {
                 ))}
               </ResponsiveBox>
             </Box>
-            <Box
+            <ResponsiveGridContainer
               sx={{
-                marginLeft: "4%",
+                marginLeft: "2%",
+                marginRight:"2%",
                 width: "92%",
                 display: "flex",
                 flexDirection: "column",
@@ -176,6 +184,7 @@ function App() {
                     sx={{
                       height: "250px",
                       width: "400px",
+                      paddingRight:"2px"
                     }}
                   >
                     <NavigationCard
@@ -206,7 +215,7 @@ function App() {
                   }}
                 />
               </Box>
-            </Box>
+            </ResponsiveGridContainer>
           </Box>
         </Box>
       )}
