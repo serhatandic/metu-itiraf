@@ -4,11 +4,11 @@ const PostCategoryCorner = ({category, backgroundColor}) => {
   return (
     <Box
       sx={{
-        width: "40px",
-        height: "18px",
+        width: "55px",
+        height: "25px",
         color: "white",
         backgroundColor: {backgroundColor},
-        fontSize: "8px",
+        fontSize: "11px",
         fontWeight: "500",
         display:"flex",
         justifyContent:"center",
