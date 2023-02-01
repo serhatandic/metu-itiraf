@@ -1,4 +1,4 @@
-import { Badge, Typography } from "@mui/material";
+import { Badge, Link, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { useState } from "react";
 import ContentCard from "./ContentCard";
@@ -22,6 +22,7 @@ const NavigationCard = ({
   date,
   postid,
   categoryColor,
+  instagramProfileUrl,
 }) => {
   const [showContent, setShowContent] = useState(false);
   const [commentNum, setCommentNum] = useState(0);
@@ -56,6 +57,7 @@ const NavigationCard = ({
           setNumberOfComments={setNumberOfComments}
           date={date}
           nickname={nickname}
+          instagramProfileUrl={instagramProfileUrl}
         />
       )}
       <Box
@@ -113,7 +115,7 @@ const NavigationCard = ({
             justifyContent: "space-between",
           }}
         >
-          <Typography
+          <Box
             sx={{
               color: "#192b33",
               fontWeight: "600",
@@ -121,8 +123,37 @@ const NavigationCard = ({
               fontSize: "14px",
             }}
           >
-            {nickname}
-          </Typography>
+            {instagramProfileUrl ? (
+              <Link
+                onClick={(e) => {
+                  e.stopPropagation();
+                }}
+                href={instagramProfileUrl}
+                target={"_blank"}
+                sx={{
+                  textDecoration: "none",
+                  background:
+                    "linear-gradient(135deg, #833ab4 0%, #fd1d1d 100%)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  color: "transparent",
+                }}
+              >
+                {nickname}
+              </Link>
+            ) : (
+              <Typography
+                sx={{
+                  fontWeight: "600",
+                  fontFamily: "Montserrat",
+                  fontSize: "14px",
+                  zIndex: "99999",
+                }}
+              >
+                {nickname}
+              </Typography>
+            )}
+          </Box>
           <Badge badgeContent={commentNum} color="secondary" showZero>
             <CommentIcon />
           </Badge>

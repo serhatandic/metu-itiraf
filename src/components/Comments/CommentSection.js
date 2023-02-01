@@ -1,4 +1,4 @@
-import { Alert, Button, Snackbar, TextField } from "@mui/material";
+import { Alert, Button, Snackbar, TextField, } from "@mui/material";
 import { Box } from "@mui/system";
 import Comment from "./Comment";
 import { useRef, useState } from "react";
@@ -39,8 +39,14 @@ const CommentSection = ({ comments, postid, setComments }) => {
   const [buttonPressed, setButtonPressed] = useState(false);
   const [notifyUser, setNotifyUser] = useState({ text: "", severity: "" });
   const [recaptchaChecked, setRecaptchaChecked] = useState(false);
+  const [instagramProfileUrl, setInstagramProfileUrl] = useState("");
 
   const recaptchaRef = useRef(null);
+
+  const instagramUrlRegex = new RegExp(
+    "^(https://www.instagram.com/[a-zA-Z0-9._-]+)/?$"
+  );
+  const isGivenProfileUrlValid = instagramUrlRegex.test(instagramProfileUrl);
 
   const submitCommentHandler = async (e) => {
     e.preventDefault();
@@ -49,12 +55,31 @@ const CommentSection = ({ comments, postid, setComments }) => {
       if (recaptchaChecked) {
         const commentid = nanoid();
 
-        await axios.post(Hosts.host + "/newcomment", {
-          comment,
-          nickname: nickName,
-          postid,
-          commentid,
-        });
+        if (instagramProfileUrl && isGivenProfileUrlValid) {
+          await axios.post(Hosts.host + "/newcomment", {
+            comment,
+            nickname: nickName,
+            postid,
+            commentid,
+            instagramProfileUrl,
+          });
+        } else {
+          if (instagramProfileUrl && !isGivenProfileUrlValid) {
+            setNotifyUser({
+              text: "Instagram url geçerli değil!",
+              severity: "warning",
+            });
+            return;
+          } else if (!instagramProfileUrl) {
+            await axios.post(Hosts.host + "/newcomment", {
+              comment,
+              nickname: nickName,
+              postid,
+              commentid,
+            });
+          }
+        }
+
         setNotifyUser({ text: "Yorumunuz eklendi!", severity: "success" });
         setComments({
           comment,
@@ -62,6 +87,7 @@ const CommentSection = ({ comments, postid, setComments }) => {
           postid,
           commentid,
           date: new Date(Date.now()).toISOString(),
+          instagramProfileUrl: instagramProfileUrl,
         });
 
         setButtonPressed(false);
@@ -96,7 +122,7 @@ const CommentSection = ({ comments, postid, setComments }) => {
               variant="filled"
               label="Ne düşünüyorsun ?"
               multiline
-              rows={4}
+              rows={7}
               value={comment}
               inputProps={{ maxLength: 450 }}
               onChange={(e) => {
@@ -128,7 +154,13 @@ const CommentSection = ({ comments, postid, setComments }) => {
               error={buttonPressed && nickName === ""}
               inputProps={{ maxLength: 20 }}
             ></TextField>
-
+            <TextField
+              label="Instagram profil id (isteğe bağlı)"
+              variant="filled"
+              onChange={(e) => {
+                setInstagramProfileUrl(`https://www.instagram.com/${e.target.value}`);
+              }}
+            ></TextField>
             <Button
               sx={{
                 backgroundColor: "#192b33",
@@ -142,6 +174,7 @@ const CommentSection = ({ comments, postid, setComments }) => {
             </Button>
           </ResponsiveBoxButtonSection>
         </ResponsiveBoxInputSection>
+
         <Box sx={{ alignSelf: "end", marginRight: "4%" }}>
           <ReCAPTCHA
             ref={recaptchaRef}
@@ -159,6 +192,7 @@ const CommentSection = ({ comments, postid, setComments }) => {
           comment={item.comment}
           nickname={item.nickname}
           date={item.date}
+          instagramProfileUrl={item.instagramProfileUrl}
         />
       ))}
       {notifyUser.text && (

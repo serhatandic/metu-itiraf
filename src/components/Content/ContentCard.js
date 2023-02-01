@@ -1,4 +1,4 @@
-import { Typography, Box, Modal } from "@mui/material";
+import { Typography, Box, Modal, Link } from "@mui/material";
 import CommentSection from "../Comments/CommentSection";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -9,28 +9,38 @@ const Hosts = require("../../Tools/Hosts");
 TimeAgo.addLocale(tr);
 const timeAgo = new TimeAgo("tr-TR");
 
-const ContentCard = (props) => {
+const ContentCard = ({
+  setShowContent,
+  showContent,
+  header,
+  content,
+  instagramProfileUrl,
+  date,
+  nickname,
+  postid,
+  setNumberOfComments,
+}) => {
   const [comments, setComments] = useState([]);
   useEffect(() => {
     const fetchComments = async () => {
-      const data = await axios.get(Hosts.host + "/comments/" + props.postid);
+      const data = await axios.get(Hosts.host + "/comments/" + postid);
       setComments(data.data);
     };
 
     fetchComments();
-  }, [props]);
+  }, [postid]);
 
   const updateLocalCommentsHandler = (newComment) => {
     setComments((prevcomments) => [newComment, ...prevcomments]);
 
-    props.setNumberOfComments([...comments, newComment].length);
+    setNumberOfComments([...comments, newComment].length);
   };
   return (
     <Modal
-      open={props.showContent}
+      open={showContent}
       sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}
       onClose={() => {
-        props.setShowContent(false);
+        setShowContent(false);
       }}
     >
       <Box
@@ -68,7 +78,7 @@ const ContentCard = (props) => {
               fontWeight: "700",
             }}
           >
-            {props.header}
+            {header}
           </Typography>
           <Typography
             sx={{
@@ -80,7 +90,7 @@ const ContentCard = (props) => {
               paddingRight: "4%",
             }}
           >
-            {props.content}
+            {content}
           </Typography>
           <Box
             sx={{
@@ -98,18 +108,38 @@ const ContentCard = (props) => {
                 color: "#bebebe",
               }}
             >
-              {timeAgo.format(new Date(Date.parse(props.date)))}
+              {timeAgo.format(new Date(Date.parse(date)))}
             </Typography>
-            <Typography
-              sx={{
-                color: "#192b33",
-                fontWeight: "600",
-                fontFamily: "Montserrat",
-                fontSize: "14px",
-              }}
-            >
-              {props.nickname}
-            </Typography>
+
+            {instagramProfileUrl ? (
+              <Link
+                href={instagramProfileUrl}
+                target={"_blank"}
+                sx={{
+                  textDecoration: "none",
+                  background:
+                    "linear-gradient(135deg, #833ab4 0%, #fd1d1d 100%)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  color: "transparent",
+                  fontWeight: "600",
+                  fontFamily: "Montserrat",
+                  fontSize: "14px",
+                }}
+              >
+                {nickname}
+              </Link>
+            ) : (
+              <Typography
+                sx={{
+                  fontWeight: "600",
+                  fontFamily: "Montserrat",
+                  fontSize: "14px",
+                }}
+              >
+                {nickname}
+              </Typography>
+            )}
           </Box>
         </Box>
         <hr
@@ -124,7 +154,8 @@ const ContentCard = (props) => {
         <CommentSection
           comments={comments}
           setComments={updateLocalCommentsHandler}
-          postid={props.postid}
+          postid={postid}
+          instagramProfile={instagramProfileUrl}
         />
       </Box>
     </Modal>

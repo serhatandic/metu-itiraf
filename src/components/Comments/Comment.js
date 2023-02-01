@@ -1,3 +1,4 @@
+import { Link, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import TimeAgo from "javascript-time-ago";
 import tr from "javascript-time-ago/locale/tr";
@@ -5,7 +6,7 @@ import tr from "javascript-time-ago/locale/tr";
 TimeAgo.addLocale(tr);
 const timeAgo = new TimeAgo("tr-TR");
 
-const Comment = ({ comment, nickname, date }) => {
+const Comment = ({ comment, nickname, date, instagramProfileUrl }) => {
   return (
     <Box
       sx={{
@@ -51,13 +52,36 @@ const Comment = ({ comment, nickname, date }) => {
           bottom: "8px",
           color: "#192b33",
           fontWeight: "600",
-          fontFamily:"Montserrat",
-          fontSize:"14px"
+          fontFamily: "Montserrat",
+          fontSize: "14px",
         }}
       >
-        {nickname}
+        {instagramProfileUrl ? (
+          <Link
+            href={instagramProfileUrl}
+            target={"_blank"}
+            sx={{
+              textDecoration: "none",
+              background: "linear-gradient(135deg, #833ab4 0%, #fd1d1d 100%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              color: "transparent",
+            }}
+          >
+            {nickname}
+          </Link>
+        ) : (
+          <Typography
+            sx={{
+              fontWeight: "600",
+              fontFamily: "Montserrat",
+              fontSize: "14px",
+            }}
+          >
+            {nickname}
+          </Typography>
+        )}
       </Box>
-
     </Box>
   );
 };
