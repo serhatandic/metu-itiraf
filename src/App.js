@@ -59,7 +59,7 @@ function App() {
   const [info, setInfo] = useState();
   const [currentPage, setCurrentPage] = useState(1);
   const [numberOfPages, setNumberOfPages] = useState(0);
-  const postsPerPage = useState(16)[0];
+  const postsPerPage = useState(12)[0];
 
   const lastPostIndex = currentPage * postsPerPage;
   const firstPostIndex = lastPostIndex - postsPerPage;
@@ -121,7 +121,7 @@ function App() {
                   display: "flex",
                   position: "static",
                   width: "200px",
-                  height: "100vh",
+                  height: "80vh",
                   backgroundColor: "white",
                   flexDirection: "column",
                   alignItems: "flex-start",
