@@ -5,7 +5,7 @@ import NavigationCard from "./components/Content/NavigationCard";
 import Navbar from "./components/Navbar";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Button, Grid, Pagination } from "@mui/material";
+import { Button, CircularProgress, Grid, Pagination } from "@mui/material";
 import MobileCategorySelection from "./components/Category/MobileCategorySelection";
 const Hosts = require("./Tools/Hosts");
 
@@ -101,96 +101,115 @@ function App() {
           mobileCategoryChangeHandler={mobileCategoryChangeHandler}
         />
       </MobileCategory>
-      <Box sx={{ display: "flex", flexDirection: "column" }}>
-        <Box sx={{ display: "flex" }}>
-          <Box>
-            <ResponsiveBox
-              sx={{
-                display: "flex",
-                position: "static",
-                width: "200px",
-                height: "100vh",
-                backgroundColor: "white",
-                flexDirection: "column",
-                alignItems: "flex-start",
-                paddingTop: "55px",
-                gap: "10px",
-                textTransform: "lowercase",
-                paddingLeft: "10px",
-              }}
-            >
-              {allCategories.map((item, id) => (
-                <Button
-                  sx={{
-                    fontFamily: "Rubik Mono One , sans-serif",
-                    color: "#414141",
-                    display: "flex",
-                    justifyContent: "start",
-                  }}
-                  key={id}
-                  onClick={(e) => {
-                    setCategoryFilter(e.target.innerText);
-                  }}
-                >
-                  {item}
-                </Button>
-              ))}
-            </ResponsiveBox>
-          </Box>
-          <Box
-            sx={{
-              marginLeft: "4%",
-              width: "92%",
-              display: "flex",
-              flexDirection: "column",
-            }}
-          >
-            <Grid
-              container
-              spacing={2}
-              sx={{
-                marginTop: "10px",
-              }}
-            >
-              {currentPosts?.map((item, id) => (
-                <Grid
-                  key={id}
-                  item
-                  xs={12}
-                  sm={4}
-                  md={3}
-                  l={3}
-                  xl={3}
-                  sx={{
-                    height: "250px",
-                    width: "400px",
-                  }}
-                >
-                  <NavigationCard
-                    key={item.content}
-                    nickname={item.nickname}
-                    header={item.header}
-                    content={item.content}
-                    category={item.category}
-                    date={item.date}
-                    postid={item.postid}
-                    categoryColor={categoryColors[item.category]}
-                  />
-                </Grid>
-              ))}
-            </Grid>
-            <Box sx={{ alignSelf: "center", marginTop: "20px", marginBottom:"20px" }}>
-              <Pagination
-                count={numberOfPages || 0}
-                shape="rounded"
-                onChange={(e, p) => {
-                  setCurrentPage(p);
+      {!data ? (
+        <CircularProgress
+          sx={{
+            position: "absolute",
+            left: 0,
+            right: 0,
+            top: 0,
+            bottom: 0,
+            margin: "auto",
+          }}
+        />
+      ) : (
+        <Box sx={{ display: "flex", flexDirection: "column" }}>
+          <Box sx={{ display: "flex" }}>
+            <Box>
+              <ResponsiveBox
+                sx={{
+                  display: "flex",
+                  position: "static",
+                  width: "200px",
+                  height: "100vh",
+                  backgroundColor: "white",
+                  flexDirection: "column",
+                  alignItems: "flex-start",
+                  paddingTop: "55px",
+                  gap: "10px",
+                  textTransform: "lowercase",
+                  paddingLeft: "10px",
                 }}
-              />
+              >
+                {allCategories.map((item, id) => (
+                  <Button
+                    sx={{
+                      fontFamily: "Rubik Mono One , sans-serif",
+                      color: "#414141",
+                      display: "flex",
+                      justifyContent: "start",
+                    }}
+                    key={id}
+                    onClick={(e) => {
+                      setCategoryFilter(e.target.innerText);
+                    }}
+                  >
+                    {item}
+                  </Button>
+                ))}
+              </ResponsiveBox>
+            </Box>
+            <Box
+              sx={{
+                marginLeft: "4%",
+                width: "92%",
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
+              <Grid
+                container
+                spacing={2}
+                sx={{
+                  marginTop: "10px",
+                }}
+              >
+                {currentPosts?.map((item, id) => (
+                  <Grid
+                    key={id}
+                    item
+                    xs={12}
+                    sm={4}
+                    md={3}
+                    l={3}
+                    xl={3}
+                    sx={{
+                      height: "250px",
+                      width: "400px",
+                    }}
+                  >
+                    <NavigationCard
+                      key={item.content}
+                      nickname={item.nickname}
+                      header={item.header}
+                      content={item.content}
+                      category={item.category}
+                      date={item.date}
+                      postid={item.postid}
+                      categoryColor={categoryColors[item.category]}
+                    />
+                  </Grid>
+                ))}
+              </Grid>
+              <Box
+                sx={{
+                  alignSelf: "center",
+                  marginTop: "20px",
+                  marginBottom: "20px",
+                }}
+              >
+                <Pagination
+                  count={numberOfPages || 0}
+                  shape="rounded"
+                  onChange={(e, p) => {
+                    setCurrentPage(p);
+                  }}
+                />
+              </Box>
             </Box>
           </Box>
         </Box>
-      </Box>
+      )}
     </>
   );
 }
