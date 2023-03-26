@@ -4,10 +4,19 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import TimeAgo from "javascript-time-ago";
 import tr from "javascript-time-ago/locale/tr";
+import { styled } from "@mui/material/styles";
+
 const Hosts = require("../../Tools/Hosts");
 
 TimeAgo.addLocale(tr);
 const timeAgo = new TimeAgo("tr-TR");
+
+const ResponsiveContentCard = styled(Box)(({ theme }) => ({
+  [theme.breakpoints.down("md")]: {
+    width: "90%",
+  },
+}));
+
 
 const ContentCard = ({
   setShowContent,
@@ -21,6 +30,8 @@ const ContentCard = ({
   setNumberOfComments,
 }) => {
   const [comments, setComments] = useState([]);
+
+
   useEffect(() => {
     const fetchComments = async () => {
       const data = await axios.get(Hosts.host + "/comments/" + postid);
@@ -43,9 +54,8 @@ const ContentCard = ({
         setShowContent(false);
       }}
     >
-      <Box
+      <ResponsiveContentCard
         sx={{
-          marginLeft: "1rem",
           overflowY: "scroll",
           backgroundColor: "white",
           color: "black",
@@ -157,7 +167,7 @@ const ContentCard = ({
           postid={postid}
           instagramProfile={instagramProfileUrl}
         />
-      </Box>
+      </ResponsiveContentCard>
     </Modal>
   );
 };
