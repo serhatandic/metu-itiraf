@@ -31,6 +31,7 @@ const MobileCategorySelection = ({
         width: "100%",
         height: "50%",
         gap: 1,
+        justifyContent: "center",
       }}
     >
       <ToggleButtonGroup
