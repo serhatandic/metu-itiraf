@@ -141,7 +141,7 @@ const CreatePost = ({ showCreatePost, setShowCreatePost }) => {
             onChange={(e) => {
               setHeader(e.target.value);
             }}
-            inputProps={{ maxLength: 30 }}
+            inputProps={{ maxLength: 60 }}
             error={buttonPressed && !header}
           />
           <TextField
