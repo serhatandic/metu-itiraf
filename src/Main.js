@@ -4,11 +4,9 @@ import { styled } from "@mui/material/styles";
 import NavigationCard from "./components/Content/NavigationCard";
 import Navbar from "./components/Navbar";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { Button, CircularProgress, Grid, Pagination } from "@mui/material";
 import MobileCategorySelection from "./components/Category/MobileCategorySelection";
 
-const Hosts = require("./Tools/Hosts");
 
 const ResponsiveBox = styled("div")(({ theme }) => ({
   [theme.breakpoints.down("md")]: {
@@ -29,7 +27,7 @@ const MobileCategory = styled("div")(({ theme }) => ({
   },
 }));
 
-function Main() {
+function Main({data}) {
   const allCategories = [
     "Her şey",
     "Aşk",
@@ -63,7 +61,6 @@ function Main() {
   };
 
   const [categoryFilter, setCategoryFilter] = useState([]);
-  const [data, setData] = useState();
   const [info, setInfo] = useState();
   const [currentPage, setCurrentPage] = useState(1);
   const [numberOfPages, setNumberOfPages] = useState(0);
@@ -72,12 +69,7 @@ function Main() {
   const lastPostIndex = currentPage * postsPerPage;
   const firstPostIndex = lastPostIndex - postsPerPage;
 
-  useEffect(() => {
-    const fetch = async () => {
-      setData(await axios.get(Hosts.host + "/"));
-    };
-    fetch();
-  }, []);
+
 
   useEffect(() => {
     if (data?.data) {

@@ -1,13 +1,13 @@
 import { Badge, Link, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { useState } from "react";
-import ContentCard from "./ContentCard";
 import CategoryCorner from "../Category/PostCategoryCorner";
 import TimeAgo from "javascript-time-ago";
 import tr from "javascript-time-ago/locale/tr";
 import CommentIcon from "@mui/icons-material/Comment";
 import { useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from 'react-router-dom';
 
 const Hosts = require("../../Tools/Hosts");
 
@@ -24,9 +24,10 @@ const NavigationCard = ({
   categoryColor,
   instagramProfileUrl,
 }) => {
-  const [showContent, setShowContent] = useState(false);
   const [commentNum, setCommentNum] = useState(0);
 
+  const navigate = useNavigate();
+  
   useEffect(() => {
     const fetchComments = async () => {
       setCommentNum(
@@ -39,27 +40,11 @@ const NavigationCard = ({
 
   const navigateToContent = (e) => {
     e.preventDefault();
-    setShowContent((prevState) => !prevState);
+    navigate("/post/" + postid);
   };
 
-  const setNumberOfComments = (num) => {
-    setCommentNum(num);
-  };
   return (
     <>
-      {showContent && (
-        <ContentCard
-          setShowContent={setShowContent}
-          showContent={showContent}
-          content={content}
-          postid={postid}
-          header={header}
-          setNumberOfComments={setNumberOfComments}
-          date={date}
-          nickname={nickname}
-          instagramProfileUrl={instagramProfileUrl}
-        />
-      )}
       <Box
         sx={{
           backgroundColor: "white",
