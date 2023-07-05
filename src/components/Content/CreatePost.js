@@ -25,6 +25,12 @@ const ResponsiveBox = styled("div")(({ theme }) => ({
 	},
 }));
 
+const ResponsiveWrapper = styled("div")(({ theme }) => ({
+	[theme.breakpoints.down("md")]: {
+		width: "90%",
+	},
+}));
+
 const CreatePost = ({ showCreatePost, setShowCreatePost }) => {
 	const [nickname, setNickname] = useState("");
 	const [header, setHeader] = useState("");
@@ -105,7 +111,7 @@ const CreatePost = ({ showCreatePost, setShowCreatePost }) => {
 				setShowCreatePost(false);
 			}}
 		>
-			<Box
+			<ResponsiveWrapper
 				sx={{
 					backgroundColor: "white",
 					borderStyle: "solid",
@@ -252,7 +258,7 @@ const CreatePost = ({ showCreatePost, setShowCreatePost }) => {
 						</Alert>
 					</Snackbar>
 				)}
-			</Box>
+			</ResponsiveWrapper>
 		</Modal>
 	);
 };
