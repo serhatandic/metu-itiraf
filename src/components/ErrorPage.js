@@ -1,10 +1,18 @@
-import { Box, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
+import { styled } from "@mui/material/styles";
+
+const ResponsiveBox = styled("div")(({ theme }) => ({
+	[theme.breakpoints.up("md")]: {
+		width: "90%",
+	},
+}));
+
 
 const ErrorPage = () => {
 	return (
-		<Box
+		<ResponsiveBox
 			sx={{
-				width: "90%",
+				width: "100%",
                 height:"60vh",
                 alignItems:"center",
 				display: "flex",
@@ -12,7 +20,7 @@ const ErrorPage = () => {
 			}}
 		>
 			<Typography>Burada hiçbir şey yok :(</Typography>
-		</Box>
+		</ResponsiveBox>
 	);
 };
 
