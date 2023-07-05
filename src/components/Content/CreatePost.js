@@ -23,6 +23,9 @@ const ResponsiveBox = styled("div")(({ theme }) => ({
 	[theme.breakpoints.up("md")]: {
 		width: "60%",
 	},
+	[theme.breakpoints.down("sm")]: {
+		width: "85%",
+	},
 }));
 
 const ResponsiveWrapper = styled("div")(({ theme }) => ({
