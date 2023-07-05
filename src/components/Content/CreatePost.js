@@ -111,7 +111,7 @@ const CreatePost = ({ showCreatePost, setShowCreatePost }) => {
 					borderStyle: "solid",
 					borderColor: "#192b33",
 					position: "relative",
-					width: "70%",
+					width: "40%",
 					height: "60%",
 					overflowY: "scroll",
 					overflowX: "hidden",
