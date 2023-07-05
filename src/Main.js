@@ -97,7 +97,6 @@ function Main({ data }) {
 	const mobileCategoryChangeHandler = (categories) => {
 		setCategoryFilter(categories.map((category) => category.toUpperCase()));
 	};
-	console.log(currentPosts);
 
 	return (
 		<>
